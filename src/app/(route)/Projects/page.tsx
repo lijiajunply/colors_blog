@@ -1,74 +1,49 @@
-// app/projects/page.tsx
-'use client'; // 因为使用了交互和状态，需要客户端组件
+// app/(route)/Projects/page.tsx
+// 项目列表页 - 服务器渲染
 
-import { useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
+import { projectService } from '@/services/projectService';
 
-// 定义项目接口
-interface ProjectItem {
-  title: string;
-  content: string;
-  url: string;
-  icon: string; // Iconify 图标标识符
-  tag: string;  // 主要技术栈标签
-}
+export default async function Projects() {
+  // 从数据库获取活跃项目
+  const projects = await projectService.getActiveProjects();
 
-// 项目数据 - 个人项目列表
-const projects: ProjectItem[] = [
-  {
-    title: "个人博客系统",
-    content: "基于 Next.js 13 开发的现代化个人博客，支持深色/浅色主题切换，响应式设计，包含文章、项目、关于等模块。",
-    url: "https://github.com",
-    icon: "mdi:blog-outline", 
-    tag: "Next.js 13 + TypeScript"
-  },
-  {
-    title: "待办事项应用",
-    content: "使用 React 和 Firebase 开发的实时待办事项应用，支持多设备同步和分类管理。",
-    url: "https://github.com",
-    icon: "mdi:clipboard-check-outline",
-    tag: "React + Firebase"
-  },
-  {
-    title: "天气应用",
-    content: "基于 Vue 3 开发的天气应用，使用 OpenWeatherMap API 获取实时天气数据，支持全球城市查询。",
-    url: "https://github.com",
-    icon: "mdi:weather-partly-cloudy",
-    tag: "Vue 3 + TypeScript"
-  },
-  {
-    title: "在线代码编辑器",
-    content: "轻量级在线代码编辑器，支持多种编程语言，实时语法高亮和代码格式化。",
-    url: "https://github.com",
-    icon: "mdi:code-json",
-    tag: "React + Monaco Editor"
-  },
-  {
-    title: "个人作品集网站",
-    content: "展示个人项目和技能的作品集网站，采用现代化设计风格，支持平滑滚动和交互动画。",
-    url: "https://github.com",
-    icon: "mdi:portfolio-outline",
-    tag: "HTML + CSS + JavaScript"
-  },
-  {
-    title: "聊天机器人",
-    content: "基于 Python 和 Flask 开发的聊天机器人，支持自然语言处理和对话管理。",
-    url: "https://github.com",
-    icon: "mdi:robot-outline",
-    tag: "Python + Flask"
-  }
-];
+  // 定义图标映射，根据项目标签动态显示图标
+  const getProjectIcon = (tags: string[]) => {
+    const iconMap: Record<string, string> = {
+      'Next.js': 'mdi:react',
+      'React': 'mdi:react',
+      'Vue': 'mdi:vuejs',
+      'JavaScript': 'mdi:language-javascript',
+      'TypeScript': 'mdi:language-typescript',
+      'Python': 'mdi:language-python',
+      'Flask': 'mdi:flask',
+      'Firebase': 'mdi:firebase',
+      'HTML': 'mdi:language-html5',
+      'CSS': 'mdi:language-css3',
+      'Node.js': 'mdi:nodejs',
+    };
 
-export default function Projects() {
-  const openUrl = (url: string) => {
-    window.open(url, '_blank');
+    // 查找匹配的图标
+    for (const tag of tags) {
+      for (const [key, icon] of Object.entries(iconMap)) {
+        if (tag.includes(key)) {
+          return icon;
+        }
+      }
+    }
+
+    // 默认图标
+    return 'mdi:code-braces';
   };
 
-  // 简单的进场动画挂载检查
-  useEffect(() => {
-    document.body.classList.add('loaded');
-  }, []);
+  // 打开外部链接
+  const openUrl = (url?: string) => {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  };
 
   return (
     <div className="page-container min-h-[calc(100vh-64px)] transition-colors duration-500 font-sans">
@@ -96,15 +71,15 @@ export default function Projects() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((item, index) => (
             <div
-              key={index}
+              key={item.id}
               className="apple-card group relative p-6 cursor-pointer overflow-hidden transition-all duration-300"
               style={{ animationDelay: `${index * 100}ms` }}
-              onClick={() => openUrl(item.url)}
+              onClick={() => openUrl(item.githubUrl || item.url)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  openUrl(item.url);
+                  openUrl(item.githubUrl || item.url);
                 }
               }}
             >
@@ -114,7 +89,7 @@ export default function Projects() {
               {/* 头部：图标与标题 */}
               <div className="relative z-10 flex items-center justify-between mb-4">
                 <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-white/10 flex items-center justify-center text-2xl text-gray-900 dark:text-white transition-transform group-hover:scale-110 duration-300">
-                  <Icon icon={item.icon} />
+                  <Icon icon={getProjectIcon(item.tags)} />
                 </div>
 
                 {/* 外部链接箭头的隐喻 */}
@@ -132,15 +107,21 @@ export default function Projects() {
                   {item.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">
-                  {item.content}
+                  {item.description || '该项目暂无描述'}
                 </p>
               </div>
 
               {/* 底部标签 (模拟 App Store 类别) */}
               <div className="relative z-10 mt-6 pt-4 border-t border-gray-100 dark:border-white/5">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-300">
-                  {item.tag}
-                </span>
+                {item.tags.length > 0 ? (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-300">
+                    {item.tags[0]}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-300">
+                    未分类
+                  </span>
+                )}
               </div>
             </div>
           ))}
