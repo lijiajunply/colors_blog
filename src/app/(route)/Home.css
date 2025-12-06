@@ -1,0 +1,216 @@
+/*
+  Native CSS Styling as requested
+  Using CSS Variables for easy dark mode handling
+*/
+
+.page-wrapper {
+  background-color: #F5F5F7; /* Apple light gray background */
+  min-height: 100vh;
+  color: #1D1D1F;
+}
+
+/* Dark Mode Overrides */
+.dark .page-wrapper {
+  background-color: transparent;
+  color: #F5F5F7;
+}
+
+/* Apple Card Style (Glassmorphism Base) */
+.apple-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.dark .apple-card {
+  background: rgba(28, 28, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Bento Box Card */
+.apple-bento-card {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 28px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-height: 240px;
+}
+
+.apple-bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.dark .apple-bento-card {
+  background: #1C1C1E;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.dark .apple-bento-card:hover {
+  background: #2C2C2E;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.apple-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  background-color: #0071E3;
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.apple-btn-primary:hover {
+  background-color: #0077ED;
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
+}
+
+.apple-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1D1D1F;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.dark .apple-btn-secondary {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.apple-btn-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark .apple-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Text Link */
+.apple-text-link {
+  color: #06c;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.apple-text-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+.dark .apple-text-link {
+  color: #2997ff;
+}
+
+/* Background Blobs (Mesh Gradient simulation) */
+.background-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: blobFloat 10s infinite alternate;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, #E0F2FE 0%, transparent 70%);
+}
+
+.dark .blob-1 {
+  background: radial-gradient(circle, #1e3a8a40 0%, transparent 70%);
+}
+
+.blob-2 {
+  bottom: 10%;
+  right: -10%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, #F5F3FF 0%, transparent 70%);
+  animation-delay: -2s;
+}
+
+.dark .blob-2 {
+  background: radial-gradient(circle, #4c1d9540 0%, transparent 70%);
+}
+
+.blob-3 {
+  top: 40%;
+  left: 30%;
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(circle, #FCE7F3 0%, transparent 70%);
+  animation-delay: -5s;
+}
+
+.dark .blob-3 {
+  background: radial-gradient(circle, #83184340 0%, transparent 70%);
+}
+
+@keyframes blobFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(20px, -20px) scale(1.1);
+  }
+}
+
+/* Gradient Text - Kept from original */
+.gradient-text {
+  background: linear-gradient(
+      -64deg,
+      #f9bf65, #ffab6b, #ff9977, #fc8986,
+      #ef7e95, #e47da6, #d37fb5, #bf83c1,
+      #ab8dcf, #9597d8, #7fa0dc, #6ca7da
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientFlow 8s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0%, 100% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar for cleaner look on macOS */
+  background: transparent;
+}

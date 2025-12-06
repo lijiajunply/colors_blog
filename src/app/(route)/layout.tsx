@@ -71,21 +71,12 @@ export default function MainLayout({
     { key: 'system' as const, label: '跟随系统', icon: 'basil:desktop-outline' },
   ]
 
-  // 关于我们选项
-  const aboutUsOptions = [
-    { label: '社团简介', key: '/About' },
-    { label: '结构架构', key: '/Structure' },
-    { label: '合作组织', key: '/OtherOrg' },
-    { label: '竞赛资源', key: '/Article/Competitions' },
-    { label: '发展历史', key: '/History' },
-  ]
-
-  // 社团动态选项
-  const communityOptions = [
-    { label: '近期活动', key: '/Event' },
-    { label: '技术博客', key: '/Blog' },
-    { label: 'iOS App', key: '/Tools' },
-    { label: '开源项目', key: '/Projects' },
+  // 博客导航选项
+  const blogOptions = [
+    { label: '首页', key: '/' },
+    { label: '文章', key: '/Articles' },
+    { label: '关于', key: '/About' },
+    { label: '项目', key: '/Projects' },
   ]
 
   return (
@@ -101,59 +92,25 @@ export default function MainLayout({
         <div className="px-4 sm:px-6 h-14 flex items-center justify-between">
           {/* Logo Area */}
           <Link href="/" className="flex items-center gap-2 group z-50">
-            <img
-              src="/assets/iOS_Club_LOGO.png"
-              alt="iOS Club"
-              className="w-7 h-7 opacity-90 group-hover:opacity-100 transition-opacity rounded-sm"
-            />
+            <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full opacity-90 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white font-bold text-sm">B</span>
+            </div>
             <span className="font-semibold text-xl tracking-tight text-gray-900 dark:text-[#f5f5f7]">
-              iOS Club of XAUAT
+              Colors Blog
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {/* 关于我们 Dropdown */}
-            <div className="relative group">
-              <button className="nav-link">
-                关于我们
-                <Icon icon="material-symbols:keyboard-arrow-down-rounded" className="text-gray-400" width="16" />
-              </button>
-              <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-[#1c1c1e] rounded-xl shadow-lg border border-gray-200 dark:border-white/20 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out">
-                <div className="py-2">
-                  {aboutUsOptions.map((item) => (
-                    <button
-                      key={item.key}
-                      onClick={() => handleSelect(item.key)}
-                      className="block w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-150 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* 社团动态 Dropdown */}
-            <div className="relative group">
-              <button className="nav-link">
-                社团动态
-                <Icon icon="material-symbols:keyboard-arrow-down-rounded" className="text-gray-400" width="16" />
-              </button>
-              <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-[#1c1c1e] rounded-xl shadow-lg border border-gray-200 dark:border-white/20 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out">
-                <div className="py-2">
-                  {communityOptions.map((item) => (
-                    <button
-                      key={item.key}
-                      onClick={() => handleSelect(item.key)}
-                      className="block w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-150 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <nav className="hidden md:flex items-center space-x-6">
+            {blogOptions.map((item) => (
+              <Link
+                key={item.key}
+                href={item.key}
+                className="nav-link flex items-center"
+              >
+                {item.label}
+              </Link>
+            ))}
 
             {/* Divider */}
             <div className="h-4 w-px bg-gray-300 dark:bg-white/20 mx-3"></div>
@@ -215,25 +172,10 @@ export default function MainLayout({
       {drawerVisible && (
         <div className="mobile-menu fixed inset-0 z-40 bg-[#fbfbfd] dark:bg-black pt-14 px-4 md:hidden flex flex-col">
           <div className="flex flex-col space-y-3 animate-fade-in">
-            {/* Mobile Links Group - 关于 */}
+            {/* Mobile Links Group - 博客导航 */}
             <div className="space-y-1">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">关于</div>
-              {aboutUsOptions.map((item) => (
-                <Link
-                  key={item.key}
-                  href={item.key}
-                  className="mobile-link"
-                  onClick={() => setDrawerVisible(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Mobile Links Group - 探索 */}
-            <div className="space-y-1">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">探索</div>
-              {communityOptions.map((item) => (
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">导航</div>
+              {blogOptions.map((item) => (
                 <Link
                   key={item.key}
                   href={item.key}
