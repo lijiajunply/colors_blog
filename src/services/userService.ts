@@ -6,31 +6,30 @@ export class UserService extends BaseService<'User'> {
     super('User');
   }
 
-  async findByEmail(email: string, include?: Prisma.UserInclude) {
+  async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
-      include,
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput, include?: Prisma.UserInclude) {
-    return this.create(data, include);
+  async createUser(data: Prisma.UserCreateInput) {
+    return this.create(data);
   }
 
-  async updateUser(id: string, data: Prisma.UserUpdateInput, include?: Prisma.UserInclude) {
-    return this.update(id, data, include);
+  async updateUser(id: string, data: Prisma.UserUpdateInput) {
+    return this.update(id, data);
   }
 
   async deleteUser(id: string) {
     return this.delete(id);
   }
 
-  async getAllUsers(include?: Prisma.UserInclude) {
-    return this.findAll(include);
+  async getAllUsers() {
+    return this.findAll();
   }
 
-  async getUserById(id: string, include?: Prisma.UserInclude) {
-    return this.findById(id, include);
+  async getUserById(id: string) {
+    return this.findById(id);
   }
 }
 

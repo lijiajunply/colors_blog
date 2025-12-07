@@ -5,11 +5,7 @@ import { authOptions } from '../auth/[...nextauth]/route';
 
 export async function GET() {
   try {
-    const articles = await articleService.getAllArticles({
-      author: true,
-      comments: true,
-      tags: true,
-    });
+    const articles = await articleService.getAllArticles();
     return NextResponse.json(articles);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
@@ -25,17 +21,10 @@ export async function POST(request: Request) {
 
   try {
     const data = await request.json();
-    const article = await articleService.createArticle(
-      {
-        ...data,
-        authorId: session.user.id,
-      },
-      {
-        author: true,
-        comments: true,
-        tags: true,
-      }
-    );
+    const article = await articleService.createArticle({
+      ...data,
+      authorId: session.user.id,
+    });
     return NextResponse.json(article, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create article' }, { status: 500 });

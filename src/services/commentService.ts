@@ -6,32 +6,32 @@ export class CommentService extends BaseService<'Comment'> {
     super('Comment');
   }
 
-  async createComment(data: Prisma.CommentCreateInput, include?: Prisma.CommentInclude) {
-    return this.create(data, include);
+  async createComment(data: Prisma.CommentCreateInput) {
+    return this.create(data);
   }
 
-  async updateComment(id: number, data: Prisma.CommentUpdateInput, include?: Prisma.CommentInclude) {
-    return this.update(id, data, include);
+  async updateComment(id: number, data: Prisma.CommentUpdateInput) {
+    return this.update(id, data);
   }
 
   async deleteComment(id: number) {
     return this.delete(id);
   }
 
-  async getAllComments(include?: Prisma.CommentInclude) {
-    return this.findAll(include);
+  async getAllComments() {
+    return this.findAll();
   }
 
-  async getCommentById(id: number, include?: Prisma.CommentInclude) {
-    return this.findById(id, include);
+  async getCommentById(id: number) {
+    return this.findById(id);
   }
 
-  async getCommentsByArticle(articleId: number, include?: Prisma.CommentInclude) {
-    return this.findMany({ articleId }, include);
+  async getCommentsByArticle(articleId: number) {
+    return this.findMany({ articleId });
   }
 
-  async getCommentsByAuthor(authorId: string, include?: Prisma.CommentInclude) {
-    return this.findMany({ authorId }, include);
+  async getCommentsByAuthor(authorId: string) {
+    return this.findMany({ authorId });
   }
 }
 

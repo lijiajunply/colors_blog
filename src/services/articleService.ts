@@ -6,35 +6,34 @@ export class ArticleService extends BaseService<'Article'> {
     super('Article');
   }
 
-  async createArticle(data: Prisma.ArticleCreateInput, include?: Prisma.ArticleInclude) {
-    return this.create(data, include);
+  async createArticle(data: any) {
+    return this.create(data);
   }
 
-  async updateArticle(id: number, data: Prisma.ArticleUpdateInput, include?: Prisma.ArticleInclude) {
-    return this.update(id, data, include);
+  async updateArticle(id: number, data: any) {
+    return this.update(id, data);
   }
 
   async deleteArticle(id: number) {
     return this.delete(id);
   }
 
-  async getAllArticles(include?: Prisma.ArticleInclude) {
-    return this.findAll(include);
+  async getAllArticles() {
+    return this.findAll();
   }
 
-  async getArticleById(id: number, include?: Prisma.ArticleInclude) {
-    return this.findById(id, include);
+  async getArticleById(id: number) {
+    return this.findById(id);
   }
 
-  async getArticlesByAuthor(authorId: string, include?: Prisma.ArticleInclude) {
-    return this.findMany({ authorId }, include);
+  async getArticlesByAuthor(authorId: string) {
+    return this.findMany({ authorId });
   }
 
   // 分页获取文章
   async getArticlesWithPagination(
     page: number = 1,
-    pageSize: number = 10,
-    include?: Prisma.ArticleInclude
+    pageSize: number = 10
   ) {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
@@ -43,7 +42,6 @@ export class ArticleService extends BaseService<'Article'> {
       this.prisma.article.findMany({
         skip,
         take,
-        include,
         orderBy: { createdAt: 'desc' },
       }),
       this.prisma.article.count(),
@@ -60,20 +58,17 @@ export class ArticleService extends BaseService<'Article'> {
 
   // 根据分类获取文章
   async getArticlesByCategory(
-    category: string,
-    include?: Prisma.ArticleInclude
+    category: string
   ) {
     return this.prisma.article.findMany({
       where: { category },
-      include,
       orderBy: { createdAt: 'desc' },
     });
   }
 
   // 根据标签获取文章
   async getArticlesByTag(
-    tagName: string,
-    include?: Prisma.ArticleInclude
+    tagName: string
   ) {
     return this.prisma.article.findMany({
       where: {
@@ -83,15 +78,13 @@ export class ArticleService extends BaseService<'Article'> {
           },
         },
       },
-      include,
       orderBy: { createdAt: 'desc' },
     });
   }
 
   // 搜索文章
   async searchArticles(
-    keyword: string,
-    include?: Prisma.ArticleInclude
+    keyword: string
   ) {
     return this.prisma.article.findMany({
       where: {
@@ -101,31 +94,26 @@ export class ArticleService extends BaseService<'Article'> {
           { excerpt: { contains: keyword, mode: 'insensitive' } },
         ],
       },
-      include,
       orderBy: { createdAt: 'desc' },
     });
   }
 
   // 获取热门文章
   async getPopularArticles(
-    limit: number = 5,
-    include?: Prisma.ArticleInclude
+    limit: number = 5
   ) {
     return this.prisma.article.findMany({
       take: limit,
-      include,
       orderBy: { views: 'desc' },
     });
   }
 
   // 获取最新文章
   async getLatestArticles(
-    limit: number = 5,
-    include?: Prisma.ArticleInclude
+    limit: number = 5
   ) {
     return this.prisma.article.findMany({
       take: limit,
-      include,
       orderBy: { createdAt: 'desc' },
     });
   }

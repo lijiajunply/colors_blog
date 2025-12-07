@@ -6,30 +6,29 @@ export class TagService extends BaseService<'Tag'> {
     super('Tag');
   }
 
-  async createTag(data: Prisma.TagCreateInput, include?: Prisma.TagInclude) {
-    return this.create(data, include);
+  async createTag(data: Prisma.TagCreateInput) {
+    return this.create(data);
   }
 
-  async updateTag(id: number, data: Prisma.TagUpdateInput, include?: Prisma.TagInclude) {
-    return this.update(id, data, include);
+  async updateTag(id: number, data: Prisma.TagUpdateInput) {
+    return this.update(id, data);
   }
 
   async deleteTag(id: number) {
     return this.delete(id);
   }
 
-  async getAllTags(include?: Prisma.TagInclude) {
-    return this.findAll(include);
+  async getAllTags() {
+    return this.findAll();
   }
 
-  async getTagById(id: number, include?: Prisma.TagInclude) {
-    return this.findById(id, include);
+  async getTagById(id: number) {
+    return this.findById(id);
   }
 
-  async getTagByName(name: string, include?: Prisma.TagInclude) {
+  async getTagByName(name: string) {
     return this.prisma.tag.findUnique({
       where: { name },
-      include,
     });
   }
 }

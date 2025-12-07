@@ -5,10 +5,7 @@ import { authOptions } from '../auth/[...nextauth]/route';
 
 export async function GET() {
   try {
-    const comments = await commentService.getAllComments({
-      author: true,
-      article: true,
-    });
+    const comments = await commentService.getAllComments();
     return NextResponse.json(comments);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch comments' }, { status: 500 });
@@ -24,16 +21,10 @@ export async function POST(request: Request) {
 
   try {
     const data = await request.json();
-    const comment = await commentService.createComment(
-      {
-        ...data,
-        authorId: session.user.id,
-      },
-      {
-        author: true,
-        article: true,
-      }
-    );
+    const comment = await commentService.createComment({
+      ...data,
+      authorId: session.user.id,
+    });
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create comment' }, { status: 500 });

@@ -9,22 +9,20 @@ export class SystemSettingService extends BaseService<'SystemSetting'> {
   /**
    * 创建系统设置
    * @param data 系统设置数据
-   * @param include 关联数据
    * @returns 创建的系统设置
    */
-  async createSystemSetting(data: Prisma.SystemSettingCreateInput, include?: Prisma.SystemSettingInclude) {
-    return this.create(data, include);
+  async createSystemSetting(data: Prisma.SystemSettingCreateInput) {
+    return this.create(data);
   }
 
   /**
    * 更新系统设置
    * @param id 系统设置ID
    * @param data 更新数据
-   * @param include 关联数据
    * @returns 更新后的系统设置
    */
-  async updateSystemSetting(id: number, data: Prisma.SystemSettingUpdateInput, include?: Prisma.SystemSettingInclude) {
-    return this.update(id, data, include);
+  async updateSystemSetting(id: number, data: Prisma.SystemSettingUpdateInput) {
+    return this.update(id, data);
   }
 
   /**
@@ -38,33 +36,29 @@ export class SystemSettingService extends BaseService<'SystemSetting'> {
 
   /**
    * 获取所有系统设置
-   * @param include 关联数据
    * @returns 系统设置列表
    */
-  async getAllSystemSettings(include?: Prisma.SystemSettingInclude) {
-    return this.findAll(include);
+  async getAllSystemSettings() {
+    return this.findAll();
   }
 
   /**
    * 根据ID获取系统设置
    * @param id 系统设置ID
-   * @param include 关联数据
    * @returns 系统设置
    */
-  async getSystemSettingById(id: number, include?: Prisma.SystemSettingInclude) {
-    return this.findById(id, include);
+  async getSystemSettingById(id: number) {
+    return this.findById(id);
   }
 
   /**
    * 根据键获取系统设置
    * @param key 系统设置键
-   * @param include 关联数据
    * @returns 系统设置
    */
-  async getSystemSettingByKey(key: string, include?: Prisma.SystemSettingInclude) {
+  async getSystemSettingByKey(key: string) {
     return this.prisma.systemSetting.findUnique({
       where: { key },
-      include,
     });
   }
 

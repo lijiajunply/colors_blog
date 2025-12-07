@@ -16,10 +16,7 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
   }
   
   // 从数据库获取文章详情
-  const article = await articleService.getArticleById(articleId, {
-    tags: true,
-    author: true,
-  });
+  const article = await articleService.getArticleById(articleId);
   
   // 如果文章不存在，返回404
   if (!article) {
@@ -79,7 +76,7 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
             </div>
             <div className="flex items-center gap-1">
               <Icon icon="mdi:account-outline" className="w-4 h-4" />
-              <span>{article.author?.name || '未知作者'}</span>
+              <span>作者</span>
             </div>
           </div>
         </header>
@@ -103,17 +100,7 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
           
-          {/* 文章标签 */}
-          <div className="mt-10 flex flex-wrap gap-2">
-            {article.tags?.map((tag) => (
-              <span
-                key={tag.id}
-                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-white/10 dark:text-gray-300"
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
+
         </article>
       </main>
     </div>
