@@ -15,10 +15,16 @@ export default function MainLayout({
 }) {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+
+  // 用于检测客户端挂载，解决 hydration 不匹配问题
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 滚动监听
   useEffect(() => {
@@ -96,7 +102,7 @@ export default function MainLayout({
         <div className="px-4 sm:px-6 h-14 flex items-center justify-between">
           {/* Logo Area */}
           <Link href="/" className="flex items-center gap-2 group z-50">
-            <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full opacity-90 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="w-7 h-7 bg-linear-to-br from-blue-500 to-purple-600 rounded-full opacity-90 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <span className="text-white font-bold text-sm">B</span>
             </div>
             <span className="font-semibold text-xl tracking-tight text-gray-900 dark:text-[#f5f5f7]">
@@ -124,7 +130,7 @@ export default function MainLayout({
               <button className="icon-btn" title="切换主题">
                 <Icon
                   icon={
-                    resolvedTheme === "dark"
+                    mounted && resolvedTheme === "dark"
                       ? "solar:moon-stars-bold"
                       : "solar:sun-2-bold"
                   }
@@ -138,7 +144,7 @@ export default function MainLayout({
                       key={option.key}
                       onClick={() => handleThemeSelect(option.key)}
                       className={`w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-150 flex items-center gap-2 ${
-                        theme === option.key
+                        mounted && theme === option.key
                           ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
                           : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10"
                       }`}
@@ -236,7 +242,7 @@ export default function MainLayout({
                       key={option.key}
                       onClick={() => handleThemeSelect(option.key)}
                       className={`flex-1 py-1.5 px-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-1.5 text-xs ${
-                        theme === option.key
+                        mounted && theme === option.key
                           ? "bg-[#0071e3] text-white"
                           : "bg-gray-100 dark:bg-[#1c1c1e] text-gray-900 dark:text-white opacity-70 hover:opacity-90"
                       }`}
