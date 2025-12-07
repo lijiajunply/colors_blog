@@ -1,8 +1,8 @@
 // Edit Tag Page
 
-import { prisma } from '../../../../lib/prisma';
-import { redirect } from 'next/navigation';
-import { updateTag } from '../actions';
+import { prisma } from "../../../../lib/prisma";
+import { redirect } from "next/navigation";
+import { updateTag } from "../actions";
 
 async function getTag(id: number) {
   const tag = await prisma.tag.findUnique({
@@ -10,26 +10,37 @@ async function getTag(id: number) {
   });
 
   if (!tag) {
-    redirect('/admin/tags');
+    redirect("/admin/tags");
   }
 
   return tag;
 }
 
-export default async function EditTagPage({ params }: { params: { id: string } }) {
+export default async function EditTagPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const id = parseInt(params.id);
   const tag = await getTag(id);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">编辑标签</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">编辑现有标签</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          编辑标签
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          编辑现有标签
+        </p>
       </div>
 
       <form action={(data) => updateTag(id, data)} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             标签名称
           </label>
           <input

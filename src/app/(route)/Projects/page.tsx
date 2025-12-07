@@ -1,8 +1,8 @@
 // app/(route)/Projects/page.tsx
 // 项目列表页 - 服务器渲染
 
-import { projectService } from '@/services/projectService';
-import { ProjectCard } from './ProjectCard';
+import { projectService } from "@/services/projectService";
+import { ProjectCard } from "./ProjectCard";
 
 interface Project {
   id: number;

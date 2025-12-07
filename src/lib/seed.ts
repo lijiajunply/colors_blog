@@ -1,29 +1,29 @@
-import { prisma } from './prisma';
-import bcrypt from 'bcrypt';
+import { prisma } from "./prisma";
+import bcrypt from "bcrypt";
 
 async function seed() {
   // Check if admin user already exists
   const existingAdmin = await prisma.user.findUnique({
-    where: { id: 'admin' },
+    where: { id: "admin" },
   });
 
   if (!existingAdmin) {
     // Create admin user
-    const hashedPassword = await bcrypt.hash('123', 10);
-    
+    const hashedPassword = await bcrypt.hash("123", 10);
+
     await prisma.user.create({
       data: {
-        id: 'admin',
-        email: 'admin@example.com',
-        name: 'admin',
+        id: "admin",
+        email: "admin@example.com",
+        name: "admin",
         password: hashedPassword,
-        identity: 'admin',
+        identity: "admin",
       },
     });
 
-    console.log('Admin user created successfully');
+    console.log("Admin user created successfully");
   } else {
-    console.log('Admin user already exists');
+    console.log("Admin user already exists");
   }
 }
 

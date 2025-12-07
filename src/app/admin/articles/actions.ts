@@ -1,11 +1,11 @@
 // Article Actions
 
-'use server';
+"use server";
 
-import { prisma } from '../../../lib/prisma';
-import { redirect } from 'next/navigation';
+import { prisma } from "../../../lib/prisma";
+import { redirect } from "next/navigation";
 
 export async function deleteArticle(id: number) {
   await prisma.article.delete({ where: { id } });
-  redirect('/admin/articles');
+  redirect("/admin/articles");
 }

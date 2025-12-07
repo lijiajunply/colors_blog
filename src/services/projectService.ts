@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import { BaseService } from "./baseService";
+import { Prisma } from "../generated/prisma/client";
 
-export class ProjectService extends BaseService<'Project'> {
+export class ProjectService extends BaseService<"Project"> {
   constructor() {
-    super('Project');
+    super("Project");
   }
 
   /**
@@ -88,10 +88,7 @@ export class ProjectService extends BaseService<'Project'> {
    * @param pageSize 每页数量
    * @returns 分页项目列表
    */
-  async getProjectsWithPagination(
-    page: number = 1,
-    pageSize: number = 10
-  ) {
+  async getProjectsWithPagination(page: number = 1, pageSize: number = 10) {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
@@ -99,7 +96,7 @@ export class ProjectService extends BaseService<'Project'> {
       this.prisma.project.findMany({
         skip,
         take,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       }),
       this.prisma.project.count(),
     ]);
@@ -118,17 +115,15 @@ export class ProjectService extends BaseService<'Project'> {
    * @param keyword 搜索关键词
    * @returns 搜索结果
    */
-  async searchProjects(
-    keyword: string
-  ) {
+  async searchProjects(keyword: string) {
     return this.prisma.project.findMany({
       where: {
         OR: [
-          { title: { contains: keyword, mode: 'insensitive' } },
-          { description: { contains: keyword, mode: 'insensitive' } },
+          { title: { contains: keyword, mode: "insensitive" } },
+          { description: { contains: keyword, mode: "insensitive" } },
         ],
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 

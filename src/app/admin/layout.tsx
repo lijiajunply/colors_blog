@@ -1,54 +1,58 @@
 // Admin Layout
 
-import React from 'react';
-import { getCurrentUser, isAdmin } from '../../lib/auth';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import React from "react";
+import { getCurrentUser, isAdmin } from "../../lib/auth";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   // Check if user is authenticated and is admin
   const user = await getCurrentUser();
   const isAdminUser = await isAdmin();
 
   if (!user || !isAdminUser) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const navigation = [
     {
-      name: '仪表盘',
-      href: '/admin',
-      icon: '📊',
+      name: "仪表盘",
+      href: "/admin",
+      icon: "📊",
     },
     {
-      name: '文章管理',
-      href: '/admin/articles',
-      icon: '📝',
+      name: "文章管理",
+      href: "/admin/articles",
+      icon: "📝",
     },
     {
-      name: '评论管理',
-      href: '/admin/comments',
-      icon: '💬',
+      name: "评论管理",
+      href: "/admin/comments",
+      icon: "💬",
     },
     {
-      name: '用户管理',
-      href: '/admin/users',
-      icon: '👥',
+      name: "用户管理",
+      href: "/admin/users",
+      icon: "👥",
     },
     {
-      name: '项目管理',
-      href: '/admin/projects',
-      icon: '🚀',
+      name: "项目管理",
+      href: "/admin/projects",
+      icon: "🚀",
     },
     {
-      name: '标签管理',
-      href: '/admin/tags',
-      icon: '🏷️',
+      name: "标签管理",
+      href: "/admin/tags",
+      icon: "🏷️",
     },
     {
-      name: '系统设置',
-      href: '/admin/settings',
-      icon: '⚙️',
+      name: "系统设置",
+      href: "/admin/settings",
+      icon: "⚙️",
     },
   ];
 
@@ -57,7 +61,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg lg:translate-x-0 transform transition-transform">
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin Panel</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+            Admin Panel
+          </h1>
         </div>
 
         <nav className="px-2 py-4 space-y-1">
@@ -80,12 +86,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between px-4 bg-white dark:bg-gray-800 shadow-sm lg:px-6">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Admin Dashboard</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Admin Dashboard
+              </h2>
             </div>
 
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600 dark:text-gray-300">
-                欢迎，{user.name || '管理员'}
+                欢迎，{user.name || "管理员"}
               </span>
               <Link
                 href="/api/auth/signout"
@@ -98,9 +106,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </header>
 
         {/* Main content area */}
-        <main className="p-4 lg:p-6">
-          {children}
-        </main>
+        <main className="p-4 lg:p-6">{children}</main>
       </div>
     </div>
   );

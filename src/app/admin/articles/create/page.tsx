@@ -1,15 +1,15 @@
 // Create Article Page
 
-import { prisma } from '../../../../lib/prisma';
-import { redirect } from 'next/navigation';
+import { prisma } from "../../../../lib/prisma";
+import { redirect } from "next/navigation";
 
 async function createArticle(data: FormData) {
-  const title = data.get('title') as string;
-  const content = data.get('content') as string;
-  const category = data.get('category') as string;
-  const excerpt = data.get('excerpt') as string;
-  const coverImage = data.get('coverImage') as string;
-  const readTime = parseInt(data.get('readTime') as string) || 5;
+  const title = data.get("title") as string;
+  const content = data.get("content") as string;
+  const category = data.get("category") as string;
+  const excerpt = data.get("excerpt") as string;
+  const coverImage = data.get("coverImage") as string;
+  const readTime = parseInt(data.get("readTime") as string) || 5;
 
   await prisma.article.create({
     data: {
@@ -19,25 +19,32 @@ async function createArticle(data: FormData) {
       excerpt,
       coverImage,
       readTime,
-      author: { connect: { id: '1' } }, // 临时使用固定作者ID
+      author: { connect: { id: "1" } }, // 临时使用固定作者ID
     },
   });
 
-  redirect('/admin/articles');
+  redirect("/admin/articles");
 }
 
 export default async function CreateArticlePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">创建文章</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">创建一篇新文章</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          创建文章
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          创建一篇新文章
+        </p>
       </div>
 
       <form action={createArticle} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               标题
             </label>
             <input
@@ -51,7 +58,10 @@ export default async function CreateArticlePage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               分类
             </label>
             <input
@@ -66,7 +76,10 @@ export default async function CreateArticlePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="excerpt"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             摘要
           </label>
           <textarea
@@ -79,7 +92,10 @@ export default async function CreateArticlePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="coverImage"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             封面图片 URL
           </label>
           <input
@@ -92,7 +108,10 @@ export default async function CreateArticlePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="readTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="readTime"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             阅读时间（分钟）
           </label>
           <input
@@ -106,7 +125,10 @@ export default async function CreateArticlePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             内容
           </label>
           <textarea

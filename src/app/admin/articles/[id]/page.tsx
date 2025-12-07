@@ -1,7 +1,7 @@
 // Edit Article Page
 
-import { prisma } from '../../../../lib/prisma';
-import { redirect } from 'next/navigation';
+import { prisma } from "../../../../lib/prisma";
+import { redirect } from "next/navigation";
 
 async function getArticle(id: number) {
   const article = await prisma.article.findUnique({
@@ -9,19 +9,19 @@ async function getArticle(id: number) {
   });
 
   if (!article) {
-    redirect('/admin/articles');
+    redirect("/admin/articles");
   }
 
   return article;
 }
 
 async function updateArticle(id: number, data: FormData) {
-  const title = data.get('title') as string;
-  const content = data.get('content') as string;
-  const category = data.get('category') as string;
-  const excerpt = data.get('excerpt') as string;
-  const coverImage = data.get('coverImage') as string;
-  const readTime = parseInt(data.get('readTime') as string) || 5;
+  const title = data.get("title") as string;
+  const content = data.get("content") as string;
+  const category = data.get("category") as string;
+  const excerpt = data.get("excerpt") as string;
+  const coverImage = data.get("coverImage") as string;
+  const readTime = parseInt(data.get("readTime") as string) || 5;
 
   await prisma.article.update({
     where: { id },
@@ -35,24 +35,35 @@ async function updateArticle(id: number, data: FormData) {
     },
   });
 
-  redirect('/admin/articles');
+  redirect("/admin/articles");
 }
 
-export default async function EditArticlePage({ params }: { params: { id: string } }) {
+export default async function EditArticlePage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const id = parseInt(params.id);
   const article = await getArticle(id);
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">编辑文章</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">编辑现有文章</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          编辑文章
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          编辑现有文章
+        </p>
       </div>
 
       <form action={(data) => updateArticle(id, data)} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               标题
             </label>
             <input
@@ -67,7 +78,10 @@ export default async function EditArticlePage({ params }: { params: { id: string
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               分类
             </label>
             <input
@@ -82,35 +96,44 @@ export default async function EditArticlePage({ params }: { params: { id: string
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="excerpt"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             摘要
           </label>
           <textarea
             id="excerpt"
             name="excerpt"
             rows={3}
-            defaultValue={article.excerpt}
+            defaultValue={article.excerpt || ''}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             placeholder="文章摘要"
           ></textarea>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="coverImage"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             封面图片 URL
           </label>
           <input
             type="url"
             id="coverImage"
             name="coverImage"
-            defaultValue={article.coverImage}
+            defaultValue={article.coverImage || ''}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             placeholder="封面图片 URL"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="readTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="readTime"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             阅读时间（分钟）
           </label>
           <input
@@ -124,7 +147,10 @@ export default async function EditArticlePage({ params }: { params: { id: string
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             内容
           </label>
           <textarea
@@ -132,7 +158,7 @@ export default async function EditArticlePage({ params }: { params: { id: string
             name="content"
             rows={10}
             required
-            defaultValue={article.content}
+            defaultValue={article.content || ''}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
             placeholder="文章内容"
           ></textarea>

@@ -1,19 +1,19 @@
 // Create Project Page
 
-import { prisma } from '../../../../lib/prisma';
-import { redirect } from 'next/navigation';
+import { prisma } from "../../../../lib/prisma";
+import { redirect } from "next/navigation";
 
 async function createProject(data: FormData) {
-  const title = data.get('title') as string;
-  const description = data.get('description') as string;
-  const url = data.get('url') as string || null;
-  const githubUrl = data.get('githubUrl') as string || null;
-  const imageUrl = data.get('imageUrl') as string || null;
-  const isActive = data.get('isActive') === 'on';
-  const tags = (data.get('tags') as string || '')
-    .split(',')
-    .map(tag => tag.trim())
-    .filter(tag => tag !== '');
+  const title = data.get("title") as string;
+  const description = data.get("description") as string;
+  const url = (data.get("url") as string) || null;
+  const githubUrl = (data.get("githubUrl") as string) || null;
+  const imageUrl = (data.get("imageUrl") as string) || null;
+  const isActive = data.get("isActive") === "on";
+  const tags = ((data.get("tags") as string) || "")
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter((tag) => tag !== "");
 
   await prisma.project.create({
     data: {
@@ -27,20 +27,27 @@ async function createProject(data: FormData) {
     },
   });
 
-  redirect('/admin/projects');
+  redirect("/admin/projects");
 }
 
 export default async function CreateProjectPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">创建项目</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">创建一个新项目</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          创建项目
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          创建一个新项目
+        </p>
       </div>
 
       <form action={createProject} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             标题
           </label>
           <input
@@ -54,7 +61,10 @@ export default async function CreateProjectPage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             描述
           </label>
           <textarea
@@ -68,7 +78,10 @@ export default async function CreateProjectPage() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
-            <label htmlFor="url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="url"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               项目 URL
             </label>
             <input
@@ -81,7 +94,10 @@ export default async function CreateProjectPage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="githubUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="githubUrl"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               GitHub URL
             </label>
             <input
@@ -95,7 +111,10 @@ export default async function CreateProjectPage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             图片 URL
           </label>
           <input
@@ -108,7 +127,10 @@ export default async function CreateProjectPage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="tags"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             标签（用逗号分隔）
           </label>
           <input
@@ -128,7 +150,10 @@ export default async function CreateProjectPage() {
             defaultChecked
             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
           />
-          <label htmlFor="isActive" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="isActive"
+            className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+          >
             活跃状态
           </label>
         </div>

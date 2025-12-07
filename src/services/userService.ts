@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import type { Prisma } from "../generated/prisma/client";
+import { BaseService } from "./baseService";
 
-export class UserService extends BaseService<'User'> {
+export class UserService extends BaseService<"User"> {
   constructor() {
-    super('User');
+    super("User");
   }
 
   async findByEmail(email: string) {

@@ -1,18 +1,14 @@
 // app/(route)/Articles/page.tsx
 // 服务器渲染页面，使用异步数据获取
 
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { articleService } from '@/services/articleService';
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { articleService } from "@/services/articleService";
 
 export default async function ArticlesPage() {
   // 从数据库获取文章列表，使用分页
-  const { articles, total, page, pageSize, totalPages } = await articleService.getArticlesWithPagination(1, 6);
-
-  // 格式化日期
-  const formatDate = (date: Date) => {
-    return new Date(date).toISOString().split('T')[0];
-  };
+  const { articles, page, totalPages } =
+    await articleService.getArticlesWithPagination(1, 6);
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#f5f5f7] dark:bg-black transition-colors duration-500">
@@ -52,10 +48,10 @@ export default async function ArticlesPage() {
 
                 {/* 文章摘要 */}
                 <p className="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                  {article.content ? article.content.substring(0, 150) + '...' : '暂无内容'}
+                  {article.content
+                    ? article.content.substring(0, 150) + "..."
+                    : "暂无内容"}
                 </p>
-
-              
 
                 {/* 文章作者 */}
                 <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
@@ -73,26 +69,34 @@ export default async function ArticlesPage() {
 
         {/* 分页控件 */}
         <div className="mt-12 flex justify-center">
-          <nav className="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+          <nav
+            className="inline-flex rounded-md shadow-sm"
+            aria-label="Pagination"
+          >
             <button
+              type="button"
               className="px-4 py-2 border border-gray-300 dark:border-white/20 text-sm font-medium rounded-l-lg text-gray-500 bg-white dark:bg-[#1c1c1e] hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
               disabled={page === 1}
             >
               <Icon icon="mdi:chevron-left" className="w-4 h-4" />
             </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-              <button
-                key={pageNum}
-                className={`px-4 py-2 border-t border-b border-gray-300 dark:border-white/20 text-sm font-medium transition-colors ${
-                  page === pageNum
-                    ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30'
-                    : 'text-gray-700 bg-white dark:bg-[#1c1c1e] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10'
-                }`}
-              >
-                {pageNum}
-              </button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNum) => (
+                <button
+                  type="button"
+                  key={pageNum}
+                  className={`px-4 py-2 border-t border-b border-gray-300 dark:border-white/20 text-sm font-medium transition-colors ${
+                    page === pageNum
+                      ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                      : "text-gray-700 bg-white dark:bg-[#1c1c1e] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ),
+            )}
             <button
+              type="button"
               className="px-4 py-2 border border-gray-300 dark:border-white/20 text-sm font-medium rounded-r-lg text-gray-700 bg-white dark:bg-[#1c1c1e] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
               disabled={page === totalPages}
             >

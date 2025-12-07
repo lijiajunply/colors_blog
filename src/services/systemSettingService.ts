@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import { BaseService } from "./baseService";
+import { Prisma } from "../generated/prisma/client";
 
-export class SystemSettingService extends BaseService<'SystemSetting'> {
+export class SystemSettingService extends BaseService<"SystemSetting"> {
   constructor() {
-    super('SystemSetting');
+    super("SystemSetting");
   }
 
   /**
@@ -74,12 +74,17 @@ export class SystemSettingService extends BaseService<'SystemSetting'> {
         const existingSetting = await this.getSystemSettingByKey(setting.key);
         if (existingSetting) {
           // 如果存在则更新
-          return this.updateSystemSetting(existingSetting.id, { value: setting.value });
+          return this.updateSystemSetting(existingSetting.id, {
+            value: setting.value,
+          });
         } else {
           // 如果不存在则创建
-          return this.createSystemSetting({ key: setting.key, value: setting.value });
+          return this.createSystemSetting({
+            key: setting.key,
+            value: setting.value,
+          });
         }
-      })
+      }),
     );
   }
 
@@ -89,7 +94,10 @@ export class SystemSettingService extends BaseService<'SystemSetting'> {
    * @param defaultValue 默认值
    * @returns 系统设置值或默认值
    */
-  async getSystemSettingValue(key: string, defaultValue: string = ''): Promise<string> {
+  async getSystemSettingValue(
+    key: string,
+    defaultValue: string = "",
+  ): Promise<string> {
     const setting = await this.getSystemSettingByKey(key);
     return setting?.value || defaultValue;
   }

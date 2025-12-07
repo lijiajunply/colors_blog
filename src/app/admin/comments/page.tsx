@@ -1,7 +1,7 @@
 // Comments List Page
 
-import { prisma } from '../../../lib/prisma';
-import { deleteComment } from './actions';
+import { prisma } from "../../../lib/prisma";
+import { deleteComment } from "./actions";
 
 interface Comment {
   id: number;
@@ -12,16 +12,21 @@ interface Comment {
   author: {
     name: string | null;
   };
-  createdAt: Date;
 }
 
-async function getComments(search?: string, page: number = 1, pageSize: number = 10) {
+async function getComments(
+  search?: string,
+  page: number = 1,
+  pageSize: number = 10,
+) {
   const skip = (page - 1) * pageSize;
   const take = pageSize;
 
-  const where = search ? {
-    content: { contains: search, mode: 'insensitive' },
-  } : {};
+  const where = search
+    ? {
+        content: { contains: search, mode: "insensitive" as const },
+      }
+    : {};
 
   const [comments, total] = await Promise.all([
     prisma.comment.findMany({
@@ -32,7 +37,6 @@ async function getComments(search?: string, page: number = 1, pageSize: number =
         article: { select: { title: true } },
         author: { select: { name: true } },
       },
-      orderBy: { createdAt: 'desc' },
     }),
     prisma.comment.count({ where }),
   ]);
@@ -46,17 +50,25 @@ async function getComments(search?: string, page: number = 1, pageSize: number =
   };
 }
 
-export default async function CommentsPage({ searchParams }: { searchParams?: { search?: string; page?: string } }) {
-  const search = searchParams?.search || '';
-  const page = parseInt(searchParams?.page || '1');
+export default async function CommentsPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string; page?: string };
+}) {
+  const search = searchParams?.search || "";
+  const page = parseInt(searchParams?.page || "1");
   const { comments, total, totalPages } = await getComments(search, page);
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">评论管理</h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">管理你的评论</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            评论管理
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            管理你的评论
+          </p>
         </div>
       </div>
 
@@ -84,16 +96,44 @@ export default async function CommentsPage({ searchParams }: { searchParams?: { 
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">内容</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">文章</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">作者</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">创建时间</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                内容
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                文章
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                作者
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                创建时间
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                操作
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {comments.map((comment: Comment) => (
-              <tr key={comment.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <tr
+                key={comment.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">
                   {comment.content}
                 </td>
@@ -101,18 +141,24 @@ export default async function CommentsPage({ searchParams }: { searchParams?: { 
                   {comment.article.title}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                  {comment.author.name || '未知作者'}
+                  {comment.author.name || "未知作者"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                  {new Date(comment.createdAt).toLocaleDateString()}
+                  - 
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <form action={() => deleteComment(comment.id)} method="post" className="inline">
+                  <form
+                    action={() => deleteComment(comment.id)}
+                    method="post"
+                    className="inline"
+                  >
                     <button
                       type="submit"
                       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                       onClick={(e) => {
-                        if (!confirm('确定要删除这条评论吗？此操作不可恢复。')) {
+                        if (
+                          !confirm("确定要删除这条评论吗？此操作不可恢复。")
+                        ) {
                           e.preventDefault();
                         }
                       }}
@@ -134,13 +180,13 @@ export default async function CommentsPage({ searchParams }: { searchParams?: { 
         </p>
         <div className="flex space-x-2">
           <a
-            href={`/admin/comments?${new URLSearchParams({ search, page: (Math.max(1, page - 1)).toString() })}`}
+            href={`/admin/comments?${new URLSearchParams({ search, page: Math.max(1, page - 1).toString() })}`}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             上一页
           </a>
           <a
-            href={`/admin/comments?${new URLSearchParams({ search, page: (Math.min(totalPages, page + 1)).toString() })}`}
+            href={`/admin/comments?${new URLSearchParams({ search, page: Math.min(totalPages, page + 1).toString() })}`}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             下一页

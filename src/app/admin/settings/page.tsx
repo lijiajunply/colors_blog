@@ -1,19 +1,21 @@
 // Settings Page
 
-import { prisma } from '../../../lib/prisma';
-import { updateSetting } from './actions';
+import { prisma } from "../../../lib/prisma";
+import { updateSetting } from "./actions";
 
 interface SystemSetting {
   id: number;
   key: string;
   value: string;
   description: string | null;
-  title: string | null;
+  title?: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 async function getSettings() {
   return prisma.systemSetting.findMany({
-    orderBy: { key: 'asc' },
+    orderBy: { key: "asc" },
   });
 }
 
@@ -23,19 +25,48 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">系统设置</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">管理系统配置</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          系统设置
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          管理系统配置
+        </p>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">标题</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">键</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">值</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">描述</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                标题
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                键
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                值
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                描述
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                操作
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -48,7 +79,11 @@ export default async function SettingsPage() {
                   {setting.key}
                 </td>
                 <td className="px-6 py-4">
-                  <form action={() => updateSetting(setting.id)} method="post" className="inline">
+                  <form
+                    action={() => updateSetting(setting.id)}
+                    method="post"
+                    className="inline"
+                  >
                     <input
                       type="text"
                       name="value"
@@ -64,7 +99,7 @@ export default async function SettingsPage() {
                   </form>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 max-w-xs">
-                  {setting.description || '无描述'}
+                  {setting.description || "无描述"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   {/* 可以添加删除功能 */}

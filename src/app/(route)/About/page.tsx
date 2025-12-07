@@ -1,8 +1,8 @@
 // app/(route)/About/page.tsx
 // 关于页面 - 服务器渲染
 
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
+import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -30,7 +30,7 @@ export default function AboutPage() {
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <span className="text-4xl font-bold text-white">B</span>
               </div>
-              
+
               {/* 个人信息 */}
               <div className="flex-1 text-center md:text-left">
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <p className="text-slate-600 dark:text-slate-300 mb-6">
                   热爱技术，专注于前端开发、后端开发和移动应用开发。喜欢分享知识，记录学习心得和实践经验。
                 </p>
-                
+
                 {/* 社交媒体链接 */}
                 <div className="flex justify-center md:justify-start gap-4">
                   <a
@@ -86,7 +86,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-        
+
         {/* 技能部分 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* 技术技能 */}
@@ -96,32 +96,39 @@ export default function AboutPage() {
                 <Icon icon="mdi:code-tags" className="w-6 h-6 text-blue-500" />
                 技术技能
               </h3>
-              
+
               {/* 技能列表 */}
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { name: 'HTML5', level: '精通' },
-                  { name: 'CSS3', level: '精通' },
-                  { name: 'JavaScript', level: '精通' },
-                  { name: 'TypeScript', level: '熟练' },
-                  { name: 'React', level: '精通' },
-                  { name: 'Next.js', level: '熟练' },
-                  { name: 'Vue.js', level: '熟练' },
-                  { name: 'Node.js', level: '熟练' },
-                  { name: 'Python', level: '熟练' },
-                  { name: 'Git', level: '精通' },
-                  { name: 'MongoDB', level: '熟练' },
-                  { name: 'MySQL', level: '熟练' }
-                ].map((skill, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-slate-600 dark:text-slate-300">{skill.name}</span>
-                    <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{skill.level}</span>
+                  { name: "HTML5", level: "精通" },
+                  { name: "CSS3", level: "精通" },
+                  { name: "JavaScript", level: "精通" },
+                  { name: "TypeScript", level: "熟练" },
+                  { name: "React", level: "精通" },
+                  { name: "Next.js", level: "熟练" },
+                  { name: "Vue.js", level: "熟练" },
+                  { name: "Node.js", level: "熟练" },
+                  { name: "Python", level: "熟练" },
+                  { name: "Git", level: "精通" },
+                  { name: "MongoDB", level: "熟练" },
+                  { name: "MySQL", level: "熟练" },
+                ].map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="flex items-center justify-between"
+                  >
+                    <span className="text-slate-600 dark:text-slate-300">
+                      {skill.name}
+                    </span>
+                    <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                      {skill.level}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          
+
           {/* 兴趣爱好 */}
           <div className="bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-white/10">
             <div className="p-8">
@@ -129,27 +136,32 @@ export default function AboutPage() {
                 <Icon icon="mdi:heart" className="w-6 h-6 text-pink-500" />
                 兴趣爱好
               </h3>
-              
+
               {/* 兴趣列表 */}
               <div className="space-y-3">
                 {[
-                  { name: '技术分享', icon: 'mdi:share-variant' },
-                  { name: '开源贡献', icon: 'mdi:github' },
-                  { name: '读书', icon: 'mdi:book-open-variant' },
-                  { name: '旅行', icon: 'mdi:map' },
-                  { name: '摄影', icon: 'mdi:camera' },
-                  { name: '音乐', icon: 'mdi:music' }
-                ].map((hobby, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <Icon icon={hobby.icon} className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-                    <span className="text-slate-600 dark:text-slate-300">{hobby.name}</span>
+                  { name: "技术分享", icon: "mdi:share-variant" },
+                  { name: "开源贡献", icon: "mdi:github" },
+                  { name: "读书", icon: "mdi:book-open-variant" },
+                  { name: "旅行", icon: "mdi:map" },
+                  { name: "摄影", icon: "mdi:camera" },
+                  { name: "音乐", icon: "mdi:music" },
+                ].map((hobby) => (
+                  <div key={hobby.name} className="flex items-center gap-3">
+                    <Icon
+                      icon={hobby.icon}
+                      className="w-5 h-5 text-slate-500 dark:text-slate-400"
+                    />
+                    <span className="text-slate-600 dark:text-slate-300">
+                      {hobby.name}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-        
+
         {/* 教育经历 */}
         <div className="bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-white/10 mb-12">
           <div className="p-8">
@@ -157,12 +169,15 @@ export default function AboutPage() {
               <Icon icon="mdi:school" className="w-6 h-6 text-green-500" />
               教育经历
             </h3>
-            
+
             {/* 教育列表 */}
             <div className="space-y-6">
               <div className="flex gap-4">
                 <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
-                  <Icon icon="mdi:university" className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  <Icon
+                    icon="mdi:university"
+                    className="w-8 h-8 text-green-600 dark:text-green-400"
+                  />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
@@ -179,7 +194,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-        
+
         {/* 联系我 */}
         <div className="bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-white/10">
           <div className="p-8">
@@ -187,7 +202,7 @@ export default function AboutPage() {
               <Icon icon="mdi:email" className="w-6 h-6 text-red-500" />
               联系我
             </h3>
-            
+
             <div className="text-center">
               <p className="text-slate-600 dark:text-slate-300 mb-6">
                 如果你有任何问题、建议或合作意向，欢迎通过以下方式联系我

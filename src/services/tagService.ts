@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import type { Prisma } from "../generated/prisma/client";
+import { BaseService } from "./baseService";
 
-export class TagService extends BaseService<'Tag'> {
+export class TagService extends BaseService<"Tag"> {
   constructor() {
-    super('Tag');
+    super("Tag");
   }
 
   async createTag(data: Prisma.TagCreateInput) {

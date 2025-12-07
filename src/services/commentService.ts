@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import { BaseService } from "./baseService";
+import { Prisma } from "../generated/prisma/client";
 
-export class CommentService extends BaseService<'Comment'> {
+export class CommentService extends BaseService<"Comment"> {
   constructor() {
-    super('Comment');
+    super("Comment");
   }
 
   async createComment(data: Prisma.CommentCreateInput) {

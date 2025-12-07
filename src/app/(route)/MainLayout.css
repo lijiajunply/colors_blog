@@ -69,7 +69,9 @@
   font-size: 14px;
   font-weight: 500;
   border-radius: 9999px;
-  transition: background-color 0.2s, transform 0.1s;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
 }
 
 .auth-btn:hover {

@@ -1,5 +1,5 @@
-import { PrismaClient, Prisma } from '../generated/prisma/client';
-import { prisma } from '../lib/prisma';
+import { PrismaClient, Prisma } from "../generated/prisma/client";
+import { prisma } from "../lib/prisma";
 
 export abstract class BaseService<T extends Prisma.ModelName> {
   protected prisma: PrismaClient;

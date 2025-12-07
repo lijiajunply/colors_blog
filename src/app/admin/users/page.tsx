@@ -1,33 +1,37 @@
 // Users List Page
 
-import { prisma } from '../../../lib/prisma';
-import { deleteUser, updateUserRole } from './actions';
+import { prisma } from "../../../lib/prisma";
+import { deleteUser, updateUserRole } from "./actions";
 
 interface User {
   id: string;
   name: string | null;
   email: string;
-  identity: string;
-  createdAt: Date;
+  identity: string | null;
 }
 
-async function getUsers(search?: string, page: number = 1, pageSize: number = 10) {
+async function getUsers(
+  search?: string,
+  page: number = 1,
+  pageSize: number = 10,
+) {
   const skip = (page - 1) * pageSize;
   const take = pageSize;
 
-  const where = search ? {
-    OR: [
-      { name: { contains: search, mode: 'insensitive' } },
-      { email: { contains: search, mode: 'insensitive' } },
-    ],
-  } : {};
+  const where = search
+    ? {
+        OR: [
+          { name: { contains: search, mode: "insensitive" as const } },
+          { email: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
 
   const [users, total] = await Promise.all([
     prisma.user.findMany({
       where,
       skip,
       take,
-      orderBy: { createdAt: 'desc' },
     }),
     prisma.user.count({ where }),
   ]);
@@ -41,17 +45,25 @@ async function getUsers(search?: string, page: number = 1, pageSize: number = 10
   };
 }
 
-export default async function UsersPage({ searchParams }: { searchParams?: { search?: string; page?: string } }) {
-  const search = searchParams?.search || '';
-  const page = parseInt(searchParams?.page || '1');
+export default async function UsersPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string; page?: string };
+}) {
+  const search = searchParams?.search || "";
+  const page = parseInt(searchParams?.page || "1");
   const { users, total, totalPages } = await getUsers(search, page);
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">用户管理</h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">管理你的用户</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            用户管理
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            管理你的用户
+          </p>
         </div>
       </div>
 
@@ -79,27 +91,64 @@ export default async function UsersPage({ searchParams }: { searchParams?: { sea
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">用户名</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">邮箱</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">身份</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">创建时间</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                用户名
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                邮箱
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                身份
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                创建时间
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                操作
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {users.map((user: User) => (
-              <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <tr
+                key={user.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                  {user.name || '未知用户'}
+                  {user.name || "未知用户"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   {user.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <form action={() => updateUserRole(user.id, user.identity === 'admin' ? 'user' : 'admin')} method="post" className="inline">
+                  <form
+                    action={() =>
+                      updateUserRole(
+                        user.id,
+                        user.identity === "admin" ? "user" : "admin",
+                      )
+                    }
+                    method="post"
+                    className="inline"
+                  >
                     <select
                       name="identity"
-                      defaultValue={user.identity}
+                      defaultValue={user.identity || "user"}
                       onChange={(e) => {
                         const form = e.target.form;
                         if (form) {
@@ -114,15 +163,21 @@ export default async function UsersPage({ searchParams }: { searchParams?: { sea
                   </form>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                  {new Date(user.createdAt).toLocaleDateString()}
+                  - 
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <form action={() => deleteUser(user.id)} method="post" className="inline">
+                  <form
+                    action={() => deleteUser(user.id)}
+                    method="post"
+                    className="inline"
+                  >
                     <button
                       type="submit"
                       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                       onClick={(e) => {
-                        if (!confirm('确定要删除这个用户吗？此操作不可恢复。')) {
+                        if (
+                          !confirm("确定要删除这个用户吗？此操作不可恢复。")
+                        ) {
                           e.preventDefault();
                         }
                       }}
@@ -144,13 +199,13 @@ export default async function UsersPage({ searchParams }: { searchParams?: { sea
         </p>
         <div className="flex space-x-2">
           <a
-            href={`/admin/users?${new URLSearchParams({ search, page: (Math.max(1, page - 1)).toString() })}`}
+            href={`/admin/users?${new URLSearchParams({ search, page: Math.max(1, page - 1).toString() })}`}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             上一页
           </a>
           <a
-            href={`/admin/users?${new URLSearchParams({ search, page: (Math.min(totalPages, page + 1)).toString() })}`}
+            href={`/admin/users?${new URLSearchParams({ search, page: Math.min(totalPages, page + 1).toString() })}`}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             下一页

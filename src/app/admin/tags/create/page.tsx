@@ -1,18 +1,25 @@
 // Create Tag Page
 
-import { createTag } from '../actions';
+import { createTag } from "../actions";
 
 export default async function CreateTagPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">创建标签</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">创建一个新标签</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          创建标签
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          创建一个新标签
+        </p>
       </div>
 
       <form action={createTag} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
             标签名称
           </label>
           <input

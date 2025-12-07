@@ -4,15 +4,15 @@
 */
 
 .page-wrapper {
-  background-color: #F5F5F7; /* Apple light gray background */
+  background-color: #f5f5f7; /* Apple light gray background */
   min-height: 100vh;
-  color: #1D1D1F;
+  color: #1d1d1f;
 }
 
 /* Dark Mode Overrides */
 .dark .page-wrapper {
   background-color: transparent;
-  color: #F5F5F7;
+  color: #f5f5f7;
 }
 
 /* Apple Card Style (Glassmorphism Base) */
@@ -34,7 +34,7 @@
 /* Bento Box Card */
 .apple-bento-card {
   position: relative;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 28px;
   overflow: hidden;
   cursor: pointer;
@@ -51,13 +51,13 @@
 }
 
 .dark .apple-bento-card {
-  background: #1C1C1E;
+  background: #1c1c1e;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: none;
 }
 
 .dark .apple-bento-card:hover {
-  background: #2C2C2E;
+  background: #2c2c2e;
   border-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
@@ -69,7 +69,7 @@
   justify-content: center;
   padding: 14px 32px;
   border-radius: 9999px;
-  background-color: #0071E3;
+  background-color: #0071e3;
   color: white;
   font-weight: 600;
   font-size: 1.05rem;
@@ -79,7 +79,7 @@
 }
 
 .apple-btn-primary:hover {
-  background-color: #0077ED;
+  background-color: #0077ed;
   transform: scale(1.02);
   box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
 }
@@ -91,7 +91,7 @@
   padding: 14px 32px;
   border-radius: 9999px;
   background-color: rgba(0, 0, 0, 0.05);
-  color: #1D1D1F;
+  color: #1d1d1f;
   font-weight: 600;
   font-size: 1.05rem;
   transition: all 0.3s ease;
@@ -143,7 +143,7 @@
   left: -10%;
   width: 50vw;
   height: 50vw;
-  background: radial-gradient(circle, #E0F2FE 0%, transparent 70%);
+  background: radial-gradient(circle, #e0f2fe 0%, transparent 70%);
 }
 
 .dark .blob-1 {
@@ -155,7 +155,7 @@
   right: -10%;
   width: 40vw;
   height: 40vw;
-  background: radial-gradient(circle, #F5F3FF 0%, transparent 70%);
+  background: radial-gradient(circle, #f5f3ff 0%, transparent 70%);
   animation-delay: -2s;
 }
 
@@ -168,7 +168,7 @@
   left: 30%;
   width: 30vw;
   height: 30vw;
-  background: radial-gradient(circle, #FCE7F3 0%, transparent 70%);
+  background: radial-gradient(circle, #fce7f3 0%, transparent 70%);
   animation-delay: -5s;
 }
 
@@ -188,10 +188,19 @@
 /* Gradient Text - Kept from original */
 .gradient-text {
   background: linear-gradient(
-      -64deg,
-      #f9bf65, #ffab6b, #ff9977, #fc8986,
-      #ef7e95, #e47da6, #d37fb5, #bf83c1,
-      #ab8dcf, #9597d8, #7fa0dc, #6ca7da
+    -64deg,
+    #f9bf65,
+    #ffab6b,
+    #ff9977,
+    #fc8986,
+    #ef7e95,
+    #e47da6,
+    #d37fb5,
+    #bf83c1,
+    #ab8dcf,
+    #9597d8,
+    #7fa0dc,
+    #6ca7da
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -201,7 +210,8 @@
 }
 
 @keyframes gradientFlow {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0 50%;
   }
   50% {

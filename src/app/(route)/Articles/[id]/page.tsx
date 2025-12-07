@@ -1,36 +1,40 @@
 // app/(route)/Articles/[id]/page.tsx
 // 文章详情页 - 服务器渲染
 
-import { Icon } from '@iconify/react';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { articleService } from '@/services/articleService';
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { articleService } from "@/services/articleService";
 
-export default async function ArticleDetailPage({ params }: { params: { id: string } }) {
+export default async function ArticleDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   // 将 string 类型的 id 转换为 number
   const articleId = parseInt(params.id);
-  
+
   // 如果 id 不是有效的数字，返回404
-  if (isNaN(articleId)) {
+  if (Number.isNaN(articleId)) {
     notFound();
   }
-  
+
   // 从数据库获取文章详情
   const article = await articleService.getArticleById(articleId);
-  
+
   // 如果文章不存在，返回404
   if (!article) {
     notFound();
   }
-  
+
   // 更新文章浏览量
   await articleService.incrementArticleViews(articleId);
-  
+
   // 格式化日期
   const formatDate = (date: Date) => {
-    return new Date(date).toISOString().split('T')[0];
+    return new Date(date).toISOString().split("T")[0];
   };
-  
+
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#f5f5f7] dark:bg-black transition-colors duration-500">
       {/* 文章详情内容 */}
@@ -45,7 +49,7 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
             <span>返回文章列表</span>
           </Link>
         </div>
-        
+
         {/* 文章头部 */}
         <header className="mb-10">
           {/* 文章分类 */}
@@ -54,12 +58,12 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
               {article.category}
             </span>
           </div>
-          
+
           {/* 文章标题 */}
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
             {article.title}
           </h1>
-          
+
           {/* 文章元信息 */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
             <div className="flex items-center gap-1">
@@ -72,7 +76,8 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
             </div>
             <div className="flex items-center gap-1">
               <Icon icon="mdi:eye-outline" className="w-4 h-4" />
-              <span>{article.views + 1} 次阅读</span> {/* +1 是因为刚刚更新了浏览量 */}
+              <span>{article.views + 1} 次阅读</span>{" "}
+              {/* +1 是因为刚刚更新了浏览量 */}
             </div>
             <div className="flex items-center gap-1">
               <Icon icon="mdi:account-outline" className="w-4 h-4" />
@@ -80,7 +85,7 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
             </div>
           </div>
         </header>
-        
+
         {/* 文章内容 */}
         <article className="prose prose-lg dark:prose-invert max-w-none">
           {/* 文章封面图 - 如果有封面图则显示 */}
@@ -93,14 +98,12 @@ export default async function ArticleDetailPage({ params }: { params: { id: stri
               />
             </div>
           )}
-          
+
           {/* 文章正文 - 使用 dangerouslySetInnerHTML 渲染 HTML 内容 */}
-          <div 
+          <div
             className="text-slate-700 dark:text-slate-200 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
-          
-
         </article>
       </main>
     </div>

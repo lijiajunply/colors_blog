@@ -1,8 +1,8 @@
 // Projects List Page
 
-import { prisma } from '../../../lib/prisma';
-import Link from 'next/link';
-import { deleteProject } from './actions';
+import { prisma } from "../../../lib/prisma";
+import Link from "next/link";
+import { deleteProject } from "./actions";
 
 interface Project {
   id: number;
@@ -17,23 +17,29 @@ interface Project {
   tags: string[];
 }
 
-async function getProjects(search?: string, page: number = 1, pageSize: number = 10) {
+async function getProjects(
+  search?: string,
+  page: number = 1,
+  pageSize: number = 10,
+) {
   const skip = (page - 1) * pageSize;
   const take = pageSize;
 
-  const where = search ? {
-    OR: [
-      { title: { contains: search, mode: 'insensitive' } },
-      { description: { contains: search, mode: 'insensitive' } },
-    ],
-  } : {};
+  const where = search
+    ? {
+        OR: [
+          { title: { contains: search, mode: "insensitive" as const } },
+          { description: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
 
   const [projects, total] = await Promise.all([
     prisma.project.findMany({
       where,
       skip,
       take,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     }),
     prisma.project.count({ where }),
   ]);
@@ -47,17 +53,25 @@ async function getProjects(search?: string, page: number = 1, pageSize: number =
   };
 }
 
-export default async function ProjectsPage({ searchParams }: { searchParams?: { search?: string; page?: string } }) {
-  const search = searchParams?.search || '';
-  const page = parseInt(searchParams?.page || '1');
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams?: { search?: string; page?: string };
+}) {
+  const search = searchParams?.search || "";
+  const page = parseInt(searchParams?.page || "1");
   const { projects, total, totalPages } = await getProjects(search, page);
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">项目管理</h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">管理你的项目</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            项目管理
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            管理你的项目
+          </p>
         </div>
         <Link
           href="/admin/projects/create"
@@ -91,11 +105,36 @@ export default async function ProjectsPage({ searchParams }: { searchParams?: { 
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">标题</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">描述</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">状态</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">创建时间</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">操作</th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                标题
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                描述
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                状态
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                创建时间
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+              >
+                操作
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -105,11 +144,13 @@ export default async function ProjectsPage({ searchParams }: { searchParams?: { 
                   {project.title}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">
-                  {project.description || '无描述'}
+                  {project.description || "无描述"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${project.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
-                    {project.isActive ? '活跃' : '非活跃'}
+                  <span
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${project.isActive ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300" : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"}`}
+                  >
+                    {project.isActive ? "活跃" : "非活跃"}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -122,7 +163,11 @@ export default async function ProjectsPage({ searchParams }: { searchParams?: { 
                   >
                     编辑
                   </Link>
-                  <form action={() => deleteProject(project.id)} method="post" className="inline">
+                  <form
+                    action={() => deleteProject(project.id)}
+                    method="post"
+                    className="inline"
+                  >
                     <button
                       type="submit"
                       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
@@ -144,13 +189,19 @@ export default async function ProjectsPage({ searchParams }: { searchParams?: { 
         </p>
         <div className="flex space-x-2">
           <Link
-            href={{ pathname: '/admin/projects', query: { ...searchParams, page: Math.max(1, page - 1) } }}
+            href={{
+              pathname: "/admin/projects",
+              query: { ...searchParams, page: Math.max(1, page - 1) },
+            }}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
           >
             上一页
           </Link>
           <Link
-            href={{ pathname: '/admin/projects', query: { ...searchParams, page: Math.min(totalPages, page + 1) } }}
+            href={{
+              pathname: "/admin/projects",
+              query: { ...searchParams, page: Math.min(totalPages, page + 1) },
+            }}
             className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
           >
             下一页

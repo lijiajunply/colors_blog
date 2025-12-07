@@ -1,19 +1,23 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
-import GitHubProvider from 'next-auth/providers/github';
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { prisma } from '../../../../lib/prisma';
-import bcrypt from 'bcrypt';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "../../../../lib/prisma";
+import bcrypt from "bcrypt";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'jsmith@example.com' },
-        password: { label: 'Password', type: 'password' },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "jsmith@example.com",
+        },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -28,7 +32,10 @@ export const authOptions = {
           return null;
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        );
 
         if (!isPasswordValid) {
           return null;
@@ -38,24 +45,24 @@ export const authOptions = {
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID || '',
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
+      clientId: process.env.GITHUB_CLIENT_ID || "",
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
     }),
     {
-      id: 'custom-oidc',
-      name: 'Custom OIDC',
-      type: 'oauth',
-      version: '2.0',
-      wellKnown: `${process.env.OIDC_ISSUER || ''}/.well-known/openid-configuration`,
-      clientId: process.env.OIDC_CLIENT_ID || '',
-      clientSecret: process.env.OIDC_CLIENT_SECRET || '',
+      id: "custom-oidc",
+      name: "Custom OIDC",
+      type: "oauth",
+      version: "2.0",
+      wellKnown: `${process.env.OIDC_ISSUER || ""}/.well-known/openid-configuration`,
+      clientId: process.env.OIDC_CLIENT_ID || "",
+      clientSecret: process.env.OIDC_CLIENT_SECRET || "",
       authorization: {
         params: {
-          scope: 'openid profile email',
+          scope: "openid profile email",
         },
       },
       idToken: true,
@@ -64,14 +71,14 @@ export const authOptions = {
           id: profile.sub,
           name: profile.name || profile.preferred_username,
           email: profile.email,
-          image: profile.avatar_url || '',
+          image: profile.avatar_url || "",
         };
       },
     },
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: 'jwt' as const,
+    strategy: "jwt" as const,
   },
   callbacks: {
     async jwt({ token, user }: any) {
@@ -90,7 +97,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: "/login",
   },
 };
 

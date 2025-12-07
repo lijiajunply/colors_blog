@@ -1,83 +1,87 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Icon } from '@iconify/react'
-import { useTheme } from 'next-themes'
-import { useAuth } from '@/hooks/useAuth'
-import './MainLayout.css'
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Icon } from "@iconify/react";
+import { useTheme } from "next-themes";
+import { useAuth } from "@/hooks/useAuth";
+import "./MainLayout.css";
 
 export default function MainLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const [drawerVisible, setDrawerVisible] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, setTheme, resolvedTheme } = useTheme()
-  const { isAuthenticated, logout } = useAuth()
-  const pathname = usePathname()
-  const router = useRouter()
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { isAuthenticated, logout } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
 
   // 滚动监听
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 5)
-    }
+      setIsScrolled(window.scrollY > 5);
+    };
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // 点击外部关闭抽屉菜单
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (drawerVisible && !(e.target as HTMLElement).closest('.mobile-menu')) {
-        setDrawerVisible(false)
+      if (drawerVisible && !(e.target as HTMLElement).closest(".mobile-menu")) {
+        setDrawerVisible(false);
       }
-    }
+    };
 
-    document.addEventListener('click', handleClickOutside)
-    return () => document.removeEventListener('click', handleClickOutside)
-  }, [drawerVisible])
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [drawerVisible]);
 
   const handleSelect = (key: string) => {
-    router.push(key)
-    setDrawerVisible(false)
-  }
+    router.push(key);
+    setDrawerVisible(false);
+  };
 
-  const handleThemeSelect = (key: 'light' | 'dark' | 'system') => {
-    setTheme(key)
-  }
+  const handleThemeSelect = (key: "light" | "dark" | "system") => {
+    setTheme(key);
+  };
 
   const toCentre = () => {
-    router.push('/Centre')
-  }
+    router.push("/Centre");
+  };
 
   const handleLogout = () => {
-    logout()
-    setDrawerVisible(false)
-    router.push('/')
-  }
+    logout();
+    setDrawerVisible(false);
+    router.push("/");
+  };
 
   // 检查当前是否是个人中心路由
-  const isCentreRoute = pathname === '/Centre'
+  const isCentreRoute = pathname === "/Centre";
 
   // 主题选项
   const themeOptions = [
-    { key: 'light' as const, label: '浅色', icon: 'solar:sun-2-bold' },
-    { key: 'dark' as const, label: '深色', icon: 'solar:moon-stars-bold' },
-    { key: 'system' as const, label: '跟随系统', icon: 'basil:desktop-outline' },
-  ]
+    { key: "light" as const, label: "浅色", icon: "solar:sun-2-bold" },
+    { key: "dark" as const, label: "深色", icon: "solar:moon-stars-bold" },
+    {
+      key: "system" as const,
+      label: "跟随系统",
+      icon: "basil:desktop-outline",
+    },
+  ];
 
   // 博客导航选项
   const blogOptions = [
-    { label: '首页', key: '/' },
-    { label: '文章', key: '/Articles' },
-    { label: '关于', key: '/About' },
-    { label: '项目', key: '/Projects' },
-  ]
+    { label: "首页", key: "/" },
+    { label: "文章", key: "/Articles" },
+    { label: "关于", key: "/About" },
+    { label: "项目", key: "/Projects" },
+  ];
 
   return (
     <div className="app-container min-h-screen flex flex-col transition-colors duration-500 ease-out">
@@ -85,8 +89,8 @@ export default function MainLayout({
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-300 border-b text-lg ${
           isScrolled
-            ? 'bg-white/75 dark:bg-[#161617]/75 border-gray-200/50 dark:border-white/10 backdrop-blur-2xl'
-            : 'bg-white/0 dark:bg-black/0 border-transparent backdrop-blur-sm'
+            ? "bg-white/75 dark:bg-[#161617]/75 border-gray-200/50 dark:border-white/10 backdrop-blur-2xl"
+            : "bg-white/0 dark:bg-black/0 border-transparent backdrop-blur-sm"
         }`}
       >
         <div className="px-4 sm:px-6 h-14 flex items-center justify-between">
@@ -119,7 +123,11 @@ export default function MainLayout({
             <div className="relative group">
               <button className="icon-btn" title="切换主题">
                 <Icon
-                  icon={resolvedTheme === 'dark' ? 'solar:moon-stars-bold' : 'solar:sun-2-bold'}
+                  icon={
+                    resolvedTheme === "dark"
+                      ? "solar:moon-stars-bold"
+                      : "solar:sun-2-bold"
+                  }
                   className="w-4 h-4"
                 />
               </button>
@@ -131,8 +139,8 @@ export default function MainLayout({
                       onClick={() => handleThemeSelect(option.key)}
                       className={`w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-150 flex items-center gap-2 ${
                         theme === option.key
-                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                          : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10'
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                          : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10"
                       }`}
                     >
                       <Icon icon={option.icon} className="w-4 h-4" />
@@ -145,7 +153,10 @@ export default function MainLayout({
 
             {/* Auth Button */}
             {!isCentreRoute ? (
-              <button className="auth-btn ml-3" onClick={() => router.push('/login')}>
+              <button
+                className="auth-btn ml-3"
+                onClick={() => router.push("/login")}
+              >
                 登录
               </button>
             ) : (
@@ -161,7 +172,11 @@ export default function MainLayout({
             onClick={() => setDrawerVisible(!drawerVisible)}
           >
             <Icon
-              icon={drawerVisible ? 'material-symbols:close-rounded' : 'material-symbols:menu-rounded'}
+              icon={
+                drawerVisible
+                  ? "material-symbols:close-rounded"
+                  : "material-symbols:menu-rounded"
+              }
               width="24"
             />
           </button>
@@ -174,7 +189,9 @@ export default function MainLayout({
           <div className="flex flex-col space-y-3 animate-fade-in">
             {/* Mobile Links Group - 博客导航 */}
             <div className="space-y-1">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">导航</div>
+              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">
+                导航
+              </div>
               {blogOptions.map((item) => (
                 <Link
                   key={item.key}
@@ -193,8 +210,8 @@ export default function MainLayout({
                 <button
                   className="w-full py-2 bg-[#0071e3] text-white font-medium rounded-lg mb-3 active:scale-95 transition-transform"
                   onClick={() => {
-                    router.push('/login')
-                    setDrawerVisible(false)
+                    router.push("/login");
+                    setDrawerVisible(false);
                   }}
                 >
                   登录 / 注册
@@ -210,7 +227,9 @@ export default function MainLayout({
 
               {/* Theme Selection */}
               <div className="w-full space-y-1">
-                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">主题</div>
+                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 px-2">
+                  主题
+                </div>
                 <div className="flex space-x-1">
                   {themeOptions.map((option) => (
                     <button
@@ -218,8 +237,8 @@ export default function MainLayout({
                       onClick={() => handleThemeSelect(option.key)}
                       className={`flex-1 py-1.5 px-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-1.5 text-xs ${
                         theme === option.key
-                          ? 'bg-[#0071e3] text-white'
-                          : 'bg-gray-100 dark:bg-[#1c1c1e] text-gray-900 dark:text-white opacity-70 hover:opacity-90'
+                          ? "bg-[#0071e3] text-white"
+                          : "bg-gray-100 dark:bg-[#1c1c1e] text-gray-900 dark:text-white opacity-70 hover:opacity-90"
                       }`}
                     >
                       <Icon icon={option.icon} className="w-3 h-3" />
@@ -238,5 +257,5 @@ export default function MainLayout({
         {children}
       </main>
     </div>
-  )
+  );
 }

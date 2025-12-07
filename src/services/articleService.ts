@@ -1,9 +1,9 @@
-import { BaseService } from './baseService';
-import { Prisma } from '../generated/prisma/client';
+import { BaseService } from "./baseService";
+import { Prisma } from "../generated/prisma/client";
 
-export class ArticleService extends BaseService<'Article'> {
+export class ArticleService extends BaseService<"Article"> {
   constructor() {
-    super('Article');
+    super("Article");
   }
 
   async createArticle(data: any) {
@@ -31,10 +31,7 @@ export class ArticleService extends BaseService<'Article'> {
   }
 
   // 分页获取文章
-  async getArticlesWithPagination(
-    page: number = 1,
-    pageSize: number = 10
-  ) {
+  async getArticlesWithPagination(page: number = 1, pageSize: number = 10) {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
@@ -42,7 +39,7 @@ export class ArticleService extends BaseService<'Article'> {
       this.prisma.article.findMany({
         skip,
         take,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       }),
       this.prisma.article.count(),
     ]);
@@ -57,19 +54,15 @@ export class ArticleService extends BaseService<'Article'> {
   }
 
   // 根据分类获取文章
-  async getArticlesByCategory(
-    category: string
-  ) {
+  async getArticlesByCategory(category: string) {
     return this.prisma.article.findMany({
       where: { category },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
   // 根据标签获取文章
-  async getArticlesByTag(
-    tagName: string
-  ) {
+  async getArticlesByTag(tagName: string) {
     return this.prisma.article.findMany({
       where: {
         tags: {
@@ -78,43 +71,37 @@ export class ArticleService extends BaseService<'Article'> {
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
   // 搜索文章
-  async searchArticles(
-    keyword: string
-  ) {
+  async searchArticles(keyword: string) {
     return this.prisma.article.findMany({
       where: {
         OR: [
-          { title: { contains: keyword, mode: 'insensitive' } },
-          { content: { contains: keyword, mode: 'insensitive' } },
-          { excerpt: { contains: keyword, mode: 'insensitive' } },
+          { title: { contains: keyword, mode: "insensitive" } },
+          { content: { contains: keyword, mode: "insensitive" } },
+          { excerpt: { contains: keyword, mode: "insensitive" } },
         ],
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
   // 获取热门文章
-  async getPopularArticles(
-    limit: number = 5
-  ) {
+  async getPopularArticles(limit: number = 5) {
     return this.prisma.article.findMany({
       take: limit,
-      orderBy: { views: 'desc' },
+      orderBy: { views: "desc" },
     });
   }
 
   // 获取最新文章
-  async getLatestArticles(
-    limit: number = 5
-  ) {
+  async getLatestArticles(limit: number = 5) {
     return this.prisma.article.findMany({
       take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 

@@ -1,9 +1,8 @@
-import { PrismaClient } from '../generated/prisma/client';
-import { config } from 'dotenv';
+import { PrismaClient } from "../generated/prisma/client";
+import { config } from "dotenv";
 
 // Load environment variables
 config();
-
 
 declare global {
   // eslint-disable-next-line no-var
@@ -12,6 +11,6 @@ declare global {
 
 export const prisma = global.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   global.prisma = prisma;
 }
