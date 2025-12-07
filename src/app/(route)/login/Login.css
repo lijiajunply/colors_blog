@@ -1,0 +1,254 @@
+/* Login Page Styles */
+.login-page {
+  background-color: #F5F5F7; /* Apple light gray background */
+  min-height: 100vh;
+  color: #1D1D1F;
+}
+
+/* Dark Mode Overrides */
+.dark .login-page {
+  background-color: transparent;
+  color: #F5F5F7;
+}
+
+/* Login Card */
+.login-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+.dark .login-card {
+  background: rgba(28, 28, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.dark .login-card:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+}
+
+/* Input Fields */
+.login-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-weight: 400;
+  color: #1D1D1F;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #0071E3;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+}
+
+.login-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.login-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dark .login-input {
+  background-color: rgba(40, 40, 43, 0.6);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #F5F5F7;
+  box-shadow: none;
+}
+
+.dark .login-input:focus {
+  border-color: #2997FF;
+  background-color: rgba(40, 40, 43, 0.8);
+  box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.2);
+}
+
+.dark .login-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* OAuth Buttons */
+.oauth-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  font-weight: 500;
+  color: #1D1D1F;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.oauth-btn:hover {
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.oauth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.dark .oauth-btn {
+  background-color: rgba(40, 40, 43, 0.6);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #F5F5F7;
+}
+
+.dark .oauth-btn:hover {
+  background-color: rgba(40, 40, 43, 0.8);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Background Blobs (Reusing from Home.css) */
+.background-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: blobFloat 10s infinite alternate;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, #E0F2FE 0%, transparent 70%);
+}
+
+.dark .blob-1 {
+  background: radial-gradient(circle, #1e3a8a40 0%, transparent 70%);
+}
+
+.blob-2 {
+  bottom: 10%;
+  right: -10%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, #F5F3FF 0%, transparent 70%);
+  animation-delay: -2s;
+}
+
+.dark .blob-2 {
+  background: radial-gradient(circle, #4c1d9540 0%, transparent 70%);
+}
+
+.blob-3 {
+  top: 40%;
+  left: 30%;
+  width: 30vw;
+  height: 30vw;
+  background: radial-gradient(circle, #FCE7F3 0%, transparent 70%);
+  animation-delay: -5s;
+}
+
+.dark .blob-3 {
+  background: radial-gradient(circle, #83184340 0%, transparent 70%);
+}
+
+@keyframes blobFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, -20px) scale(1.1);
+  }
+}
+
+/* Apple Buttons (Reusing from Home.css) */
+.apple-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  background-color: #0071E3;
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.apple-btn-primary:hover {
+  background-color: #0077ED;
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
+}
+
+.apple-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading Spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form Labels */
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D1D1F;
+  transition: color 0.2s ease;
+}
+
+.dark label {
+  color: #F5F5F7;
+}
+
+/* Checkbox Styles */
+input[type="checkbox"] {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Transition Effects */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

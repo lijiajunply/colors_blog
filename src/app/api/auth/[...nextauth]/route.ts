@@ -45,6 +45,29 @@ export const authOptions = {
       clientId: process.env.GITHUB_CLIENT_ID || '',
       clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
     }),
+    {
+      id: 'custom-oidc',
+      name: 'Custom OIDC',
+      type: 'oauth',
+      version: '2.0',
+      wellKnown: `${process.env.OIDC_ISSUER || ''}/.well-known/openid-configuration`,
+      clientId: process.env.OIDC_CLIENT_ID || '',
+      clientSecret: process.env.OIDC_CLIENT_SECRET || '',
+      authorization: {
+        params: {
+          scope: 'openid profile email',
+        },
+      },
+      idToken: true,
+      profile(profile: any) {
+        return {
+          id: profile.sub,
+          name: profile.name || profile.preferred_username,
+          email: profile.email,
+          image: profile.avatar_url || '',
+        };
+      },
+    },
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -71,6 +94,6 @@ export const authOptions = {
   },
 };
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions as any);
 
 export { handler as GET, handler as POST };
